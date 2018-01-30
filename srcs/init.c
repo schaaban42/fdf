@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 16:06:38 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/30 11:58:41 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/30 22:44:34 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,14 @@ static t_fdf	*init_create_win(void)
 	if (!(fdf->mlx_win =
 		mlx_new_window(fdf->mlx_core, WIN_WIDTH, WIN_HEIGHT, WIN_TITLE)))
 		error_handler(1, fdf);
-	fdf->map_origin_x = WIN_WIDTH / 2;
-	fdf->map_origin_y = WIN_HEIGHT / 2;
-	fdf->map_scale_x = 25;
-	fdf->map_scale_y = 15;
-	fdf->map_depth = 4;
+	fdf->map_origin_x = WIN_WIDTH / 2 - 75;
+	fdf->map_origin_y = WIN_HEIGHT / 2 - 200;
+	fdf->map_scale_x = 3.8;
+	fdf->map_scale_y = 1.0;
+	fdf->map_depth = 0.5;
+	fdf->color_min = 0x0066FF;
+	fdf->color_zero = 0xFFFFFF;
+	fdf->color_max = 0x00FF00;
 	return (fdf);
 }
 

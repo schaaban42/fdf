@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 14:31:42 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/30 11:46:21 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/30 21:26:01 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <string.h>
 
-# define WIN_WIDTH 700
-# define WIN_HEIGHT 700
+# define WIN_WIDTH 1280
+# define WIN_HEIGHT 960
 # define WIN_TITLE "~ FdF ~"
 
 typedef struct	s_fdf
@@ -28,9 +28,14 @@ typedef struct	s_fdf
 	int		map_height;
 	int		map_origin_x;
 	int		map_origin_y;
-	int		map_scale_x;
-	int		map_scale_y;
+	double	map_scale_x;
+	double	map_scale_y;
 	double	map_depth;
+	int		color_min;
+	int		color_zero;
+	int		color_max;
+	int		level_min;
+	int		level_max;
 	int		fd;
 }				t_fdf;
 
@@ -42,7 +47,7 @@ int				mouse_pressed(int button, int x, int y, void *param);
 void			parse_file(t_fdf *fdf);
 
 void			put_pixel(int x, int y, int color, t_fdf *fdf);
-void			draw_line(int x0, int y0, int x1, int y1, t_fdf *fdf);
+void			draw_line(int coords[4], t_fdf *fdf);
 
 void			draw_map(t_fdf *fdf);
 

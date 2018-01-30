@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 16:55:13 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/29 22:11:31 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/30 22:55:05 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "mlx.h"
 #include "fdf.h"
 #include <stdlib.h>
-
 
 static int		parser_size_check(char **lines, t_fdf *fdf)
 {
@@ -77,7 +76,10 @@ static int		parser_fill_map(char **lines, t_fdf *fdf)
 		if (!(fdf->map[i] = (int*)malloc(sizeof(int) * fdf->map_width)))
 			return (-1);
 		if ((line_res = parser_fill_line(lines[i], i, fdf)) < 1)
+		{
+			fdf->map[i] = NULL;
 			return (line_res);
+		}
 	}
 	fdf->map[i] = NULL;
 	return (1);

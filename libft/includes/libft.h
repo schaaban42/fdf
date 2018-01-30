@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 10:24:21 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/25 16:38:56 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/30 17:57:32 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <string.h>
 # include "ft_printf.h"
 # include "get_next_line.h"
+
+# define FT_ABS(x) (x < 0 ? -x : x)
 
 typedef struct		s_list
 {

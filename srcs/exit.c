@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 00:32:59 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/29 14:41:51 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/30 22:54:54 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		error_handler(int error, t_fdf *fdf)
 			ft_putendl_fd("error: mem-allocation failed", 2);
 		else if (error == 6)
 			ft_putendl_fd("error: not a valid file", 2);
-		else if (close(fdf->fd) != 0)
+		if (close(fdf->fd) != 0)
 			ft_putendl_fd("error: unable to close file", 2);
 	}
 	exit_fdf(fdf);
