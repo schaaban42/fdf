@@ -6,7 +6,7 @@
 #    By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/02 12:08:41 by schaaban          #+#    #+#              #
-#    Updated: 2018/01/19 14:32:31 by schaaban         ###   ########.fr        #
+#    Updated: 2018/01/28 23:05:56 by schaaban         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ SRCS		=	$(addprefix $(SRCS_DIR)/, 	\
 				ft_a2dlen.c					\
 				ft_atoi.c					\
 				ft_bzero.c					\
-				ft_free_tab.c				\
 				ft_isalnum.c				\
 				ft_isalpha.c				\
 				ft_isascii.c				\
@@ -66,6 +65,7 @@ SRCS		=	$(addprefix $(SRCS_DIR)/, 	\
 				ft_strdel.c					\
 				ft_strdup.c					\
 				ft_strequ.c					\
+				ft_str_isdigit.c			\
 				ft_striter.c				\
 				ft_striteri.c				\
 				ft_strjoin.c				\

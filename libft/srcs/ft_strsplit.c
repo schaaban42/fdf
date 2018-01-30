@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 10:45:18 by schaaban          #+#    #+#             */
-/*   Updated: 2017/11/15 13:07:17 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/28 17:18:17 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,12 @@ char		**ft_strsplit(char const *s, char c)
 	while (s[i] != '\0')
 	{
 		if (split_isword(s, i, c))
-			tab[j++] = split_getword(s, i, c);
+			if (!(tab[j++] = split_getword(s, i, c)))
+				ft_a2ddel((void***)&tab);
 		i++;
 		if (s[i] == '\0' && split_isword(s, i, c))
-			if ((tab[j++] = split_getword(s, i, c)) == NULL)
-				return (NULL);
+			if (!(tab[j++] = split_getword(s, i, c)))
+				ft_a2ddel((void***)&tab);
 	}
 	tab[j] = 0;
 	return (tab);

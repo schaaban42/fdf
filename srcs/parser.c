@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 16:55:13 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/28 22:58:33 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/29 22:11:31 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int		parser_size_check(char **lines, t_fdf *fdf)
 		i++;
 	}
 	fdf->map_height = i;
+	if (fdf->map_width < 2 || fdf->map_height < 2)
+		return (0);
 	return (1);
 }
 
@@ -113,9 +115,10 @@ void			parse_file(t_fdf *fdf)
 	char	*file_str;
 	char	*file_line;
 	int		parse_result;
+	int 	ret;
 
 	file_str = NULL;
-	while (get_next_line(fdf->fd, &file_line))
+	while ((ret = get_next_line(fdf->fd, &file_line)) > 0)
 	{
 		if (!(file_str = ft_strjoin_free(file_str, file_line)))
 		{
@@ -129,9 +132,9 @@ void			parse_file(t_fdf *fdf)
 		}
 		file_line ? ft_memdel((void**)&file_line) : 0;
 	}
+	(ret < 0) ? error_handler(6, fdf) : 0;
 	!file_str ? error_handler(5, fdf) : 0;
 	parse_result = parser_getmap(file_str, fdf);
 	file_str ? ft_memdel((void**)&file_str) : 0;
-	if (parse_result < 1)
-		error_handler((parse_result == -1) ? 5 : 3, fdf);
+	(parse_result < 1) ? error_handler((parse_result == -1) ? 5 : 3, fdf) : 0;
 }

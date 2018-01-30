@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 10:24:21 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/19 14:31:49 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/25 16:38:56 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);
-int					ft_tolower(int c);
 int					ft_isprint(int c);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strequ(char const *s1, char const *s2);
+int					ft_str_isdigit(char *s);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
+int					ft_tolower(int c);
 int					ft_toupper(int c);
 
-void				ft_a2ddel(void **array);
+void				ft_a2ddel(void ***array);
 void				ft_bzero(void *s, size_t n);
-void				ft_free_tab(void **tab);
 void				ft_memdel(void **ap);
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstdel(t_list **alst, void (*del)(void*, size_t));

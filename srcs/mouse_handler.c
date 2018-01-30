@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   mouse_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/21 16:08:13 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/25 00:47:26 by schaaban         ###   ########.fr       */
+/*   Created: 2018/01/29 17:00:48 by schaaban          #+#    #+#             */
+/*   Updated: 2018/01/29 17:39:17 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
+#include "fdf.h"
+#include "mlx.h"
 
-# include <string.h>
-# define BUFF_SIZE	1000
-# define MAX_FD		1024
+int		mouse_pressed(int button, int x, int y, void *param)
+{
+	static int xl, yl;
+	t_fdf	*fdf;
 
-int				get_next_line(const int fd, char **line);
-
-#endif
+	fdf = (t_fdf*)param;
+	if (button == 1)
+	{
+		draw_line(xl, yl, x, y, fdf);
+		xl = x;
+		yl = y;
+	}
+	return (0);
+}
