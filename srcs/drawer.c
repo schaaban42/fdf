@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/29 18:31:34 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/30 21:20:17 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/31 18:04:18 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,21 @@
 #include "mlx.h"
 #include <stdio.h>
 
-static int		get_real_x(int x, int z, t_fdf *fdf)
+static int		get_real_x(int x, int y, t_fdf *fdf)
 {
-	return ((int)(fdf->map_origin_x -
-		(((fdf->map_width - 1) * fdf->map_scale_x) / 2) +
-		(x * fdf->map_scale_x) + (int)(fdf->map_scale_y * (double)z)));
+	return ((int)(fdf->map_origin[0] -
+		((fdf->map_width - 1) * (fdf->map_scale[0] * fdf->map_scale[3]) / 2) -
+		((fdf->map_height - 1) * fdf->map_depth[0] * fdf->map_depth[1] / 2) +
+		(x * (fdf->map_scale[0] * fdf->map_scale[3]))) +
+		(fdf->map_depth[0] * fdf->map_depth[1] * y));
 }
 
 static int		get_real_y(int y, int z, t_fdf *fdf)
 {
-	return ((int)(fdf->map_origin_y -
-		(((fdf->map_height - 1) * fdf->map_scale_y) / 2) -
-		(z * fdf->map_depth) + (int)((fdf->map_scale_y * 3) * (double)y)));
+	return ((int)(fdf->map_origin[1] -
+		(((fdf->map_height - 1) * fdf->map_scale[1] * fdf->map_scale[4]) / 2) +
+		(y * fdf->map_scale[1] * fdf->map_scale[4])) -
+		(fdf->map_scale[2] * fdf->map_scale[5] * z));
 }
 
 static void		get_min_max_map(t_fdf *fdf)
@@ -65,7 +68,8 @@ void			draw_map(t_fdf *fdf)
 	int		i;
 	int		j;
 	int		coords[6];
-	
+
+	mlx_clear_window(fdf->mlx_core, fdf->mlx_win);
 	get_min_max_map(fdf);
 	i = -1;
 	while (++i < fdf->map_height)

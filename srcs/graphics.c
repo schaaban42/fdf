@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 23:46:33 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/30 21:04:51 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/31 15:40:55 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 void			put_pixel(int x, int y, int color, t_fdf *fdf)
 {
-	mlx_pixel_put(fdf->mlx_core, fdf->mlx_win, x, y, color);
+	if (x >= 0 && y >= 0 && x < WIN_WIDTH && y < WIN_HEIGHT)
+		mlx_pixel_put(fdf->mlx_core, fdf->mlx_win, x, y, color);
 }
 
 static int		color_gradient(int cs, int ce, double value)

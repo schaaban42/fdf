@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 14:31:42 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/30 21:26:01 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/01/31 17:57:28 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <string.h>
 
-# define WIN_WIDTH 1280
-# define WIN_HEIGHT 960
+# define WIN_WIDTH 1200
+# define WIN_HEIGHT 800
 # define WIN_TITLE "~ FdF ~"
 
 typedef struct	s_fdf
@@ -26,11 +26,9 @@ typedef struct	s_fdf
 	int		**map;
 	int		map_width;
 	int		map_height;
-	int		map_origin_x;
-	int		map_origin_y;
-	double	map_scale_x;
-	double	map_scale_y;
-	double	map_depth;
+	int		map_origin[2];
+	double	map_scale[6];
+	double	map_depth[2];
 	int		color_min;
 	int		color_zero;
 	int		color_max;
