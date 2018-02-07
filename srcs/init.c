@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 16:06:38 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/31 17:57:39 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/07 19:47:55 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,26 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+
+void			fdf_reset(t_fdf *fdf)
+{
+	if (!fdf)
+		return ;
+	fdf->map_origin[0] = WIN_WIDTH / 2;
+	fdf->map_origin[1] = WIN_HEIGHT / 2;
+	fdf->map_scale[0] = 25;
+	fdf->map_scale[1] = 25;
+	fdf->map_scale[2] = 2;
+	fdf->map_scale[3] = 1;
+	fdf->map_scale[4] = 1;
+	fdf->map_scale[5] = 1;
+	fdf->map_const[0] = 0;
+	fdf->map_const[1] = 1;
+	fdf->projection = 1;
+	fdf->fill = 0;
+	fdf->ui = 1;
+	fdf->color = 1;
+}
 
 static void		init_struct(t_fdf **fdf)
 {
@@ -36,19 +56,7 @@ static t_fdf	*init_create_win(void)
 	if (!(fdf->mlx_win =
 		mlx_new_window(fdf->mlx_core, WIN_WIDTH, WIN_HEIGHT, WIN_TITLE)))
 		error_handler(1, fdf);
-	fdf->map_origin[0] = WIN_WIDTH / 2;
-	fdf->map_origin[1] = WIN_HEIGHT / 2;
-	fdf->map_scale[0] = 20;
-	fdf->map_scale[1] = 20;
-	fdf->map_scale[2] = 3;
-	fdf->map_scale[3] = 1;
-	fdf->map_scale[4] = 1;
-	fdf->map_scale[5] = 1;
-	fdf->map_depth[0] = 10;
-	fdf->map_depth[1] = 1;
-	fdf->color_min = 0x0066FF;
-	fdf->color_zero = 0xFFFFFF;
-	fdf->color_max = 0xFF33FF;
+	fdf_reset(fdf);
 	return (fdf);
 }
 

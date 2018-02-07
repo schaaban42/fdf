@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/29 18:31:34 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/31 18:04:18 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/07 19:57:42 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,59 @@
 #include "fdf.h"
 #include "mlx.h"
 #include <stdio.h>
+#include <math.h>
 
-static int		get_real_x(int x, int y, t_fdf *fdf)
+static int		get_real_x(int x, int y, int z, t_fdf *fdf)
 {
-	return ((int)(fdf->map_origin[0] -
-		((fdf->map_width - 1) * (fdf->map_scale[0] * fdf->map_scale[3]) / 2) -
-		((fdf->map_height - 1) * fdf->map_depth[0] * fdf->map_depth[1] / 2) +
-		(x * (fdf->map_scale[0] * fdf->map_scale[3]))) +
-		(fdf->map_depth[0] * fdf->map_depth[1] * y));
+	int		nx;
+
+	nx = z;
+	if (fdf->projection == 1)
+	{
+		nx = fdf->map_origin[0] - 
+			(((fdf->map_width - 1) * fdf->map_scale[0] * fdf->map_scale[3]) -
+			((fdf->map_height - 1) * fdf->map_scale[1] * fdf->map_scale[4])) / 2 +
+			(x * fdf->map_scale[0] * fdf->map_scale[3]);
+		return ((int)(nx - (y * fdf->map_scale[1] * fdf->map_scale[4])));
+	}
+	else
+	{
+		nx = fdf->map_origin[0] - 
+			((fdf->map_width - 1) * fdf->map_scale[0] * fdf->map_scale[3] / 2) +
+			(x * fdf->map_scale[0] * fdf->map_scale[3]) +
+			((fdf->map_height - 1) * fdf->map_scale[1] *
+			fdf->map_scale[4] * 0.5 * fdf->map_const[0]);
+		return ((int)(nx - (fdf->map_const[0] *
+			(y * fdf->map_scale[1] * fdf->map_scale[4]))));
+	}
+	return (0);
 }
 
-static int		get_real_y(int y, int z, t_fdf *fdf)
+static int		get_real_y(int x, int y, int z, t_fdf *fdf)
 {
-	return ((int)(fdf->map_origin[1] -
-		(((fdf->map_height - 1) * fdf->map_scale[1] * fdf->map_scale[4]) / 2) +
-		(y * fdf->map_scale[1] * fdf->map_scale[4])) -
-		(fdf->map_scale[2] * fdf->map_scale[5] * z));
+	int		ny;
+
+	if (fdf->projection == 1)
+	{
+		ny = fdf->map_origin[1] - 
+			(((fdf->map_width - 1) * fdf->map_scale[0] *
+			fdf->map_scale[3] * fdf->map_const[1]) +
+			((fdf->map_height - 1) * fdf->map_scale[1] *
+			fdf->map_scale[4])) / 2 +
+			(y * fdf->map_scale[1] * fdf->map_scale[4]);
+		return ((int)(-(z * fdf->map_scale[2] *
+			fdf->map_scale[5]) + fdf->map_const[1] * 
+			(x * fdf->map_scale[0] * fdf->map_scale[3]) + ny));
+	}
+	else
+	{
+		ny = fdf->map_origin[1] - 
+			((fdf->map_height - 1) *
+			fdf->map_scale[1] * fdf->map_scale[4] / 2) +
+			(y * fdf->map_scale[1] * fdf->map_scale[4]);
+		return ((int)(ny - (1 * (z * fdf->map_scale[2] * fdf->map_scale[5]))));
+	}
+	return (0);
 }
 
 static void		get_min_max_map(t_fdf *fdf)
@@ -56,11 +93,13 @@ static void		get_min_max_map(t_fdf *fdf)
 static int		get_real_color(int alt, t_fdf *fdf)
 {
 	if (alt == 0)
-		return (fdf->color_zero);
+		return (COLOR_ZERO);
 	else if (alt > 0)
-		return (fdf->color_zero + (fdf->color_max - fdf->color_zero) * ((double)alt / (double)fdf->level_max));
+		return (color_gradient(COLOR_ZERO, COLOR_MAX,
+			((double)alt / (double)fdf->level_max)));
 	else
-		return (fdf->color_zero + (fdf->color_min - fdf->color_zero) * (((double)alt / (double)fdf->level_min)));
+		return (color_gradient(COLOR_ZERO, COLOR_MIN,
+			((double)alt / (double)fdf->level_min)));
 }
 
 void			draw_map(t_fdf *fdf)
@@ -77,12 +116,14 @@ void			draw_map(t_fdf *fdf)
 		j = 0;
 		while (++j < fdf->map_width)
 		{
-			coords[0] = get_real_x(j - 1, i, fdf);
-			coords[1] = get_real_y(i, fdf->map[i][j - 1], fdf);
-			coords[2] = get_real_x(j, i, fdf);
-			coords[3] = get_real_y(i, fdf->map[i][j], fdf);
-			coords[4] = get_real_color(fdf->map[i][j - 1], fdf);
-			coords[5] = get_real_color(fdf->map[i][j], fdf);
+			coords[0] = get_real_x(j - 1, i, fdf->map[i][j - 1], fdf);
+			coords[1] = get_real_y(j - 1, i, fdf->map[i][j - 1], fdf);
+			coords[2] = get_real_x(j, i, fdf->map[i][j], fdf);
+			coords[3] = get_real_y(j, i, fdf->map[i][j], fdf);
+			coords[4] = (fdf->color) ?
+				get_real_color(fdf->map[i][j - 1], fdf) : 0xFFFFFF;
+			coords[5] = (fdf->color) ?
+				get_real_color(fdf->map[i][j], fdf) : 0xFFFFFF;
 			draw_line(coords, fdf);
 		}
 	}
@@ -93,15 +134,37 @@ void			draw_map(t_fdf *fdf)
 		i = 0;
 		while (++i < fdf->map_height)
 		{
-			coords[0] = get_real_x(j, i - 1, fdf);
-			coords[1] = get_real_y(i - 1, fdf->map[i - 1][j], fdf);
-			coords[2] = get_real_x(j, i, fdf);
-			coords[3] = get_real_y(i, fdf->map[i][j], fdf);
-			coords[4] = get_real_color(fdf->map[i - 1][j], fdf);
-			coords[5] = get_real_color(fdf->map[i][j], fdf);
-		//printf("%d %d %d %d\n", fdf->map[i - 1][j], get_real_color(fdf->map[i - 1][j], fdf), fdf->map[i][j],
-		//get_real_color(fdf->map[i][j], fdf));
+			coords[0] = get_real_x(j, i - 1, fdf->map[i - 1][j], fdf);
+			coords[1] = get_real_y(j, i - 1, fdf->map[i - 1][j], fdf);
+			coords[2] = get_real_x(j, i, fdf->map[i][j], fdf);
+			coords[3] = get_real_y(j, i, fdf->map[i][j], fdf);
+			coords[4] = (fdf->color) ?
+				get_real_color(fdf->map[i - 1][j], fdf) : 0xFFFFFF;
+			coords[5] = (fdf->color) ?
+				get_real_color(fdf->map[i][j], fdf) : 0xFFFFFF;
 			draw_line(coords, fdf);
 		}
 	}
+	if (fdf->fill)
+	{
+		i = 0;
+		while (++i < fdf->map_height)
+		{
+			j = 0;
+			while (++j < fdf->map_width)
+			{
+				coords[0] = get_real_x(j - 1, i, fdf->map[i][j - 1], fdf);
+				coords[1] = get_real_y(j - 1, i, fdf->map[i][j - 1], fdf);
+				coords[2] = get_real_x(j, i - 1, fdf->map[i - 1][j], fdf);
+				coords[3] = get_real_y(j, i - 1, fdf->map[i - 1][j], fdf);
+				coords[4] = (fdf->color) ?
+					get_real_color(fdf->map[i][j - 1], fdf) : 0xFFFFFF;
+				coords[5] = (fdf->color) ?
+					get_real_color(fdf->map[i - 1][j], fdf) : 0xFFFFFF;
+				draw_line(coords, fdf);
+			}
+		}
+	}
+	if (fdf->ui)
+		draw_ui(fdf);
 }
