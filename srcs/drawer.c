@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/29 18:31:34 by schaaban          #+#    #+#             */
-/*   Updated: 2018/02/07 19:57:42 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/09 16:52:26 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,24 @@ static int		get_real_color(int alt, t_fdf *fdf)
 {
 	if (alt == 0)
 		return (COLOR_ZERO);
+#ifdef COLOR_ZMIN
+	else if (alt > 0)
+		return (color_gradient(COLOR_ZMAX, COLOR_MAX,
+			((double)alt / (double)fdf->level_max)));
+#else
 	else if (alt > 0)
 		return (color_gradient(COLOR_ZERO, COLOR_MAX,
 			((double)alt / (double)fdf->level_max)));
+#endif
+#ifdef COLOR_ZMAX
+	else
+		return (color_gradient(COLOR_ZMIN, COLOR_MIN,
+			((double)alt / (double)fdf->level_min)));
+#else
 	else
 		return (color_gradient(COLOR_ZERO, COLOR_MIN,
 			((double)alt / (double)fdf->level_min)));
+#endif
 }
 
 void			draw_map(t_fdf *fdf)

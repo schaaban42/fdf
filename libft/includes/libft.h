@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 10:24:21 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/30 17:57:32 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/09 15:11:38 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);
+int					ft_isdigit_base(int c, int base);
 int					ft_isprint(int c);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 int					ft_strcmp(const char *s1, const char *s2);
@@ -96,5 +97,7 @@ size_t				ft_strlen(const char *s);
 
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstnew(void const *content, size_t content_size);
+
+double				ft_dbounds(double n, double min, double max);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 01:21:10 by schaaban          #+#    #+#             */
-/*   Updated: 2018/02/07 19:48:46 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/07 21:08:12 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,11 @@ static void		map_scale(int scale, t_fdf *fdf)
 	else if (scale == 122)
 		fdf->map_scale[5] -= 0.2;
 	else if (scale == 101)
-		fdf->map_const[fdf->projection] += 0.2;
+		fdf->map_const[fdf->projection] = 
+			ft_dbounds(fdf->map_const[fdf->projection] + 0.2, -1, 1);
 	else if (scale == 113)
-		fdf->map_const[fdf->projection] -= 0.2;
+		fdf->map_const[fdf->projection] = 
+			ft_dbounds(fdf->map_const[fdf->projection] - 0.2, -1, 1);
 	else
 		return ;
 	draw_map(fdf);
@@ -100,6 +102,5 @@ int		key_pressed(int keycode, void *param)
 	map_zoom(keycode, fdf);
 	map_scale(keycode, fdf);
 	map_other(keycode, fdf);
-	ft_printf("%d\n", keycode);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/25 16:06:38 by schaaban          #+#    #+#             */
-/*   Updated: 2018/02/07 19:47:55 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/09 16:34:17 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void			fdf_reset(t_fdf *fdf)
 		return ;
 	fdf->map_origin[0] = WIN_WIDTH / 2;
 	fdf->map_origin[1] = WIN_HEIGHT / 2;
-	fdf->map_scale[0] = 25;
-	fdf->map_scale[1] = 25;
+	fdf->map_scale[0] = 16;
+	fdf->map_scale[1] = 16;
 	fdf->map_scale[2] = 2;
 	fdf->map_scale[3] = 1;
 	fdf->map_scale[4] = 1;
 	fdf->map_scale[5] = 1;
 	fdf->map_const[0] = 0;
-	fdf->map_const[1] = 1;
+	fdf->map_const[1] = 0.6;
 	fdf->projection = 1;
 	fdf->fill = 0;
 	fdf->ui = 1;

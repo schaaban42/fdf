@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/28 16:55:13 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/30 22:55:05 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/09 14:57:02 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int		parser_fill_line(char *line, int map_i, t_fdf *fdf)
 		return (-1);
 	while (columns[++i] != NULL)
 	{
-		if (!(ft_str_isdigit(columns[i])))
+		if (!str_is_valid(columns[i]))
 		{
 			ft_a2ddel((void***)&columns);
 			return (0);

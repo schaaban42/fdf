@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 14:31:42 by schaaban          #+#    #+#             */
-/*   Updated: 2018/02/07 20:00:29 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/09 17:09:38 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # define WIN_WIDTH 1200
 # define WIN_HEIGHT 768
 # define WIN_TITLE "~ FdF ~"
-# define COLOR_MIN 0xFFD700
-# define COLOR_ZERO 0x00AAFF
-# define COLOR_MAX 0xFF00FF
+# define COLOR_MIN 0xFFFF00
+# define COLOR_ZERO 0x0088FF
+# define COLOR_MAX 0xFF1AFF
 
 typedef struct	s_fdf
 {
@@ -40,6 +40,8 @@ typedef struct	s_fdf
 	int		color;
 	int		fd;
 }				t_fdf;
+
+int				str_is_valid(char *str);
 
 void			fdf_reset(t_fdf *fdf);
 t_fdf			*fdf_init(int argc, char *file_name);

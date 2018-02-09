@@ -6,7 +6,7 @@
 #    By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/02 12:08:41 by schaaban          #+#    #+#              #
-#    Updated: 2018/01/28 23:05:56 by schaaban         ###   ########.fr        #
+#    Updated: 2018/02/09 15:11:56 by schaaban         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,13 @@ SRCS		=	$(addprefix $(SRCS_DIR)/, 	\
 				ft_a2ddel.c					\
 				ft_a2dlen.c					\
 				ft_atoi.c					\
+				ft_bounds.c					\
 				ft_bzero.c					\
 				ft_isalnum.c				\
 				ft_isalpha.c				\
 				ft_isascii.c				\
 				ft_isdigit.c				\
+				ft_isdigit_base.c			\
 				ft_isprint.c				\
 				ft_itoa.c					\
 				ft_itoa_base.c				\
@@ -88,6 +90,10 @@ SRCS		=	$(addprefix $(SRCS_DIR)/, 	\
 				ft_tolower.c				\
 				ft_toupper.c				\
 				get_next_line.c				)
+INCS		=	$(addprefix $(INC_DIR)/, 	\
+				libft.h						\
+				get_next_line.h				\
+				ft_printf.h					)
 OBJS		=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 all: $(NAME)
@@ -96,7 +102,7 @@ $(NAME): dir_creation $(OBJS)
 	@ar rc $(NAME) $(OBJS)
 	@ranlib $(NAME)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(INC_DIR)/libft.h
 	@$(CC) $(FLAGS) $(CC_INC) -o $@ -c $<
 
 dir_creation:

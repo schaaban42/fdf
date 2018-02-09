@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 19:33:18 by schaaban          #+#    #+#             */
-/*   Updated: 2018/02/07 20:27:21 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/09 16:33:50 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static void		ui_perspective(t_fdf *fdf)
 	mlx_string_put(fdf->mlx_core, fdf->mlx_win, 20, 250, 0xFFFFFF,
 		"/* Perspective *\\");
 	mlx_string_put(fdf->mlx_core, fdf->mlx_win, 20, 265, 0xFFFFFF,
-		"Par. depth : 'E' (+) and 'Q' (-)");
+		"Par. const : 'E' (+) and 'Q' (-)");
 	mlx_string_put(fdf->mlx_core, fdf->mlx_win, 20, 280, 0xFFFFFF,
-		"Iso. depth : 'E' (+) and 'Q' (-)");
+		"Iso. const : 'E' (+) and 'Q' (-)");
 }
 
 void		draw_ui(t_fdf *fdf)
@@ -70,4 +70,12 @@ void		draw_ui(t_fdf *fdf)
 	ui_camera(fdf);
 	ui_scaling(fdf);
 	ui_perspective(fdf);
+	if (fdf->projection)
+		mlx_string_put(fdf->mlx_core, fdf->mlx_win,
+			WIN_WIDTH / 2 - 42, 20, 0xFFFFFF,
+			"Isometric view");
+	else
+		mlx_string_put(fdf->mlx_core, fdf->mlx_win,
+			WIN_WIDTH / 2 - 42, 20, 0xFFFFFF,
+			"Parallel  view");
 }
