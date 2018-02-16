@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 14:03:18 by schaaban          #+#    #+#             */
-/*   Updated: 2017/11/08 14:06:44 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/13 19:20:20 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@ char	*ft_strcpy(char *dst, const char *src)
 {
 	int		i;
 
-	i = 0;
-	while (src[i] != '\0')
-	{
+	i = -1;
+	while (src[++i])
 		dst[i] = src[i];
-		i++;
-	}
 	dst[i] = src[i];
 	return (dst);
 }

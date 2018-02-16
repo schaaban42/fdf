@@ -6,7 +6,7 @@
 #    By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/11 11:45:23 by schaaban          #+#    #+#              #
-#    Updated: 2018/02/07 21:33:24 by schaaban         ###   ########.fr        #
+#    Updated: 2018/02/14 16:10:33 by schaaban         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,11 +37,11 @@ SRCS		=		$(addprefix $(SRCS_DIR)/, 	\
 					init.c						\
 					exit.c						\
 					key_handler.c				\
-					mouse_handler.c				\
 					drawer.c					\
 					graphics.c					\
 					ui.c						\
-					tools.c						)
+					tools.c						\
+					draw_map.c					)
 OBJS		=		$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 all: $(NAME)

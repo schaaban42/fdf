@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 16:08:13 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/25 00:47:26 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/15 18:58:36 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 
 # include <string.h>
 # define BUFF_SIZE	1000
-# define MAX_FD		1024
+
+typedef struct  s_line
+{
+	int				fd;
+	char			*content;
+	struct s_line	*next;
+}				t_line;
 
 int				get_next_line(const int fd, char **line);
 

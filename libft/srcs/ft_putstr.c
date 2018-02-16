@@ -6,16 +6,16 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 10:27:06 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/27 20:24:00 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:58:22 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
 
 void	ft_putstr(char const *s)
 {
 	if (s == NULL)
 		return ;
-	while (*s != '\0')
-		ft_putchar(*s++);
+	write(1, s, ft_strlen(s));
 }

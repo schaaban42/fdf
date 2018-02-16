@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/29 18:31:34 by schaaban          #+#    #+#             */
-/*   Updated: 2018/02/09 16:52:26 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/14 11:30:16 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <math.h>
 
-static int		get_real_x(int x, int y, int z, t_fdf *fdf)
+int				get_real_x(int x, int y, int z, t_fdf *fdf)
 {
 	int		nx;
 
@@ -42,7 +42,7 @@ static int		get_real_x(int x, int y, int z, t_fdf *fdf)
 	return (0);
 }
 
-static int		get_real_y(int x, int y, int z, t_fdf *fdf)
+int				get_real_y(int x, int y, int z, t_fdf *fdf)
 {
 	int		ny;
 
@@ -69,7 +69,7 @@ static int		get_real_y(int x, int y, int z, t_fdf *fdf)
 	return (0);
 }
 
-static void		get_min_max_map(t_fdf *fdf)
+void			get_min_max_map(t_fdf *fdf)
 {
 	int		i;
 	int		j;
@@ -90,7 +90,7 @@ static void		get_min_max_map(t_fdf *fdf)
 	}
 }
 
-static int		get_real_color(int alt, t_fdf *fdf)
+int				get_real_color(int alt, t_fdf *fdf)
 {
 	if (alt == 0)
 		return (COLOR_ZERO);
@@ -116,67 +116,14 @@ static int		get_real_color(int alt, t_fdf *fdf)
 
 void			draw_map(t_fdf *fdf)
 {
-	int		i;
-	int		j;
 	int		coords[6];
 
 	mlx_clear_window(fdf->mlx_core, fdf->mlx_win);
 	get_min_max_map(fdf);
-	i = -1;
-	while (++i < fdf->map_height)
-	{
-		j = 0;
-		while (++j < fdf->map_width)
-		{
-			coords[0] = get_real_x(j - 1, i, fdf->map[i][j - 1], fdf);
-			coords[1] = get_real_y(j - 1, i, fdf->map[i][j - 1], fdf);
-			coords[2] = get_real_x(j, i, fdf->map[i][j], fdf);
-			coords[3] = get_real_y(j, i, fdf->map[i][j], fdf);
-			coords[4] = (fdf->color) ?
-				get_real_color(fdf->map[i][j - 1], fdf) : 0xFFFFFF;
-			coords[5] = (fdf->color) ?
-				get_real_color(fdf->map[i][j], fdf) : 0xFFFFFF;
-			draw_line(coords, fdf);
-		}
-	}
-
-	j = -1;
-	while (++j < fdf->map_width)
-	{
-		i = 0;
-		while (++i < fdf->map_height)
-		{
-			coords[0] = get_real_x(j, i - 1, fdf->map[i - 1][j], fdf);
-			coords[1] = get_real_y(j, i - 1, fdf->map[i - 1][j], fdf);
-			coords[2] = get_real_x(j, i, fdf->map[i][j], fdf);
-			coords[3] = get_real_y(j, i, fdf->map[i][j], fdf);
-			coords[4] = (fdf->color) ?
-				get_real_color(fdf->map[i - 1][j], fdf) : 0xFFFFFF;
-			coords[5] = (fdf->color) ?
-				get_real_color(fdf->map[i][j], fdf) : 0xFFFFFF;
-			draw_line(coords, fdf);
-		}
-	}
+	draw_map_h(fdf, coords);
+	draw_map_v(fdf, coords);
 	if (fdf->fill)
-	{
-		i = 0;
-		while (++i < fdf->map_height)
-		{
-			j = 0;
-			while (++j < fdf->map_width)
-			{
-				coords[0] = get_real_x(j - 1, i, fdf->map[i][j - 1], fdf);
-				coords[1] = get_real_y(j - 1, i, fdf->map[i][j - 1], fdf);
-				coords[2] = get_real_x(j, i - 1, fdf->map[i - 1][j], fdf);
-				coords[3] = get_real_y(j, i - 1, fdf->map[i - 1][j], fdf);
-				coords[4] = (fdf->color) ?
-					get_real_color(fdf->map[i][j - 1], fdf) : 0xFFFFFF;
-				coords[5] = (fdf->color) ?
-					get_real_color(fdf->map[i - 1][j], fdf) : 0xFFFFFF;
-				draw_line(coords, fdf);
-			}
-		}
-	}
+		draw_map_f(fdf, coords);
 	if (fdf->ui)
 		draw_ui(fdf);
 }

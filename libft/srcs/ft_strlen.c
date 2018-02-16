@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 11:11:32 by schaaban          #+#    #+#             */
-/*   Updated: 2017/11/24 16:48:27 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/13 18:58:37 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	len;
+	size_t	l;
 
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
+	l = 0;
+	while (s[l++]);
+	return (l - 1);
 }

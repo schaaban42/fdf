@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/23 18:52:36 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/25 12:28:12 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/15 18:57:31 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,45 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+
+static t_line   *gnl_remain(t_line **remain, int fd)
+{
+	t_line	*new;
+	t_line	*cpy;
+
+	cpy = (*remain);
+	while (cpy != NULL)
+	{
+		if (cpy->fd == fd)
+			return (cpy);
+		cpy = cpy->next;
+	}
+	if ((new = (t_line*)malloc(sizeof(t_line))) == NULL)
+		return (NULL);
+	new->content = NULL;
+	new->fd = fd;
+	new->next = NULL;
+	if (*remain == NULL)
+	{
+		(*remain) = new;
+		return (*remain);
+	}
+	new->next = *remain;
+	*remain = new;
+	return (*remain);
+}
+
+static void		gnl_free(t_line **start, t_line **remain, char **line)
+{
+	if (*remain != NULL)
+	{
+		*start = (*remain)->next;
+		(*remain)->content ? ft_memdel((void**)&((*remain)->content)) : 0;
+		ft_memdel((void**)remain);
+	}
+	if (*line != NULL)
+		ft_strdel(line);
+}
 
 static char		*gnl_split(char *str, char **remain, int *end)
 {
@@ -31,19 +70,19 @@ static char		*gnl_split(char *str, char **remain, int *end)
 				return (NULL);
 			if (!(*remain = ft_strdup(str + i + 1)))
 			{
-				line ? free(line) : 0;
+				line ? ft_strdel(&line) : 0;
 				return (NULL);
 			}
 			if (ft_strlen(*remain) == 0)
-				ft_memdel((void**)remain);
+				*remain ? ft_memdel((void**)remain) : 0;
 			line = ft_strncpy(line, str, i);
 			return (line);
 		}
 	}
-	return (line = ft_strdup(str));
+    return (line = ft_strdup(str));
 }
 
-static int		gnl_read(char **line, char **remain, char *buff)
+static int		gnl_read(char **line, t_line *remain, char *buff)
 {
 	char	*to_add;
 	char	*prev_buff;
@@ -51,10 +90,10 @@ static int		gnl_read(char **line, char **remain, char *buff)
 
 	end = 0;
 	prev_buff = ft_strdup(buff);
-	ft_memdel((void**)remain);
+	remain->content ? ft_strdel(&(remain->content)) : 0;
 	if (!prev_buff)
 		return (-1);
-	to_add = gnl_split(prev_buff, remain, &end);
+	to_add = gnl_split(prev_buff, &(remain->content), &end);
 	free(prev_buff);
 	if (!to_add)
 		return (-1);
@@ -65,28 +104,28 @@ static int		gnl_read(char **line, char **remain, char *buff)
 
 int				get_next_line(const int fd, char **line)
 {
-	static char		*remain[MAX_FD] = {NULL};
-	char			buff[BUFF_SIZE];
+	static t_line	*remain = NULL;
+	t_line			*a_rmn;
+	char			*buff;
 	int				bytes_read;
 	int				end;
 
 	end = 0;
 	bytes_read = 0;
-	if (!line || fd < 0 || fd >= MAX_FD)
+	if (!line || fd < 0 || !(buff = ft_strnew(BUFF_SIZE)))
 		return (-1);
 	*line = NULL;
-	ft_bzero(buff, BUFF_SIZE + 1);
-	if (remain[fd] != NULL)
-		end = gnl_read(line, &(remain[fd]), remain[fd]);
+	a_rmn = gnl_remain(&remain, fd);
+	(a_rmn->content) ? (end = gnl_read(line, a_rmn, a_rmn->content)) : 0;
 	while (!end && (bytes_read = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		end = gnl_read(line, &(remain[fd]), buff);
-		ft_bzero(buff, BUFF_SIZE + 1);
+		end = gnl_read(line, a_rmn, buff);
+		ft_bzero(buff, BUFF_SIZE);
 	}
+	buff ? ft_strdel(&buff) : 0;
 	if ((end < 0 || bytes_read < 0) || (bytes_read == 0 && !*line))
 	{
-		*line ? ft_strdel(line) : 0;
-		remain[fd] ? ft_strdel(&(remain[fd])) : 0;
+		(bytes_read == 0 && !*line) ? gnl_free(&remain, &a_rmn, line) : 0;
 		return ((end < 0 || bytes_read < 0) ? -1 : 0);
 	}
 	return (1);

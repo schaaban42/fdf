@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 00:32:59 by schaaban          #+#    #+#             */
-/*   Updated: 2018/01/30 22:54:54 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/02/15 13:21:50 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void		exit_fdf(t_fdf *fdf)
 {
 	if (fdf)
 	{
+		fdf->mlx_core ? ft_memdel((void**)&fdf->mlx_core) : 0;
+		fdf->mlx_win ? ft_memdel((void**)&fdf->mlx_win) : 0;
 		fdf->map ? ft_a2ddel((void***)&fdf->map) : 0;
 	}
 	fdf ? ft_memdel((void**)&fdf) : 0;
